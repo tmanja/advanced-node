@@ -11,7 +11,8 @@
     "test": "jest --no-cache --runInBand",
     "test:staged": "npm t -- --findRelatedTests --bail",
     "test:watch": "npm t -- --watch",
-    "test:coverage": "npm t -- --coverage"
+    "test:coverage": "npm t -- --coverage",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
+    "husky": "^7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "^12.3.7",
     "rimraf": "^3.0.2",
