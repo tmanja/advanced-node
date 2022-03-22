@@ -1,25 +1,30 @@
+import { AuthenticationError } from '@/domain/errors'
 import { FacebookAuthentication } from '@/domain/features'
 
 class FacebookAuthenticationService {
   constructor (private readonly loadFacebookUserApi: LoadFacebookUserApi) {}
-  async perform (params: FacebookAuthentication.Params): Promise<void> {
+  async perform (params: FacebookAuthentication.Params): Promise<AuthenticationError> {
     await this.loadFacebookUserApi.loadUser({ token: params.token })
+    return new AuthenticationError()
   }
 }
 
 export interface LoadFacebookUserApi {
-  loadUser: (params: LoadFacebookUserApi.Params) => Promise<void>
-}
-
-class LoadFacebookUserApiSpy implements LoadFacebookUserApi {
-  token?: LoadFacebookUserApi.Params
-  async loadUser (params: LoadFacebookUserApi.Params): Promise<void> {
-    this.token = { token: params.token }
-  }
+  loadUser: (params: LoadFacebookUserApi.Params) => Promise<LoadFacebookUserApi.Result>
 }
 
 namespace LoadFacebookUserApi {
   export type Params = { token: string }
+  export type Result = undefined
+}
+
+class LoadFacebookUserApiSpy implements LoadFacebookUserApi {
+  token?: LoadFacebookUserApi.Params
+  result: undefined
+  async loadUser (params: LoadFacebookUserApi.Params): Promise<LoadFacebookUserApi.Result> {
+    this.token = { token: params.token }
+    return this.result
+  }
 }
 
 describe('FacebookAuthenticationService', () => {
@@ -28,5 +33,12 @@ describe('FacebookAuthenticationService', () => {
     const sut = new FacebookAuthenticationService(loadFacebookUserApi)
     await sut.perform({ token: 'any_token' })
     expect(loadFacebookUserApi.token).toEqual({ token: 'any_token' })
+  })
+  it('should return AuthenticationError when LoadFacebookUserApi returns undefined', async () => {
+    const loadFacebookUserApi = new LoadFacebookUserApiSpy()
+    loadFacebookUserApi.result = undefined
+    const sut = new FacebookAuthenticationService(loadFacebookUserApi)
+    const authResult = await sut.perform({ token: 'any_token' })
+    expect(authResult).toEqual(new AuthenticationError())
   })
 })
