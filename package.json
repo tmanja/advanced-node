@@ -4,14 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && npx tsc"
+    "build": "rimraf dist && npx tsc",
+    "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage"
   },
   "keywords": [],
   "type": "commonjs",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/module-alias": "^2.0.4",
     "@types/node": "^26.4.0",
-    "typescript": "^7.0.2"
+    "jest": "^30.5.0",
+    "ts-jest": "^29.4.12",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "module-alias": "^2.3.4",
