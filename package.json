@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rimraf dist && npx tsc",
     "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:staged": "npm test -- --findRelatedTests",
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage"
   },
@@ -16,6 +17,7 @@
     "@types/module-alias": "^2.0.4",
     "@types/node": "^26.4.0",
     "jest": "^30.5.0",
+    "lint-staged": "^17.4.1",
     "ts-jest": "^29.4.12",
     "typescript": "^5.9.3"
   },
