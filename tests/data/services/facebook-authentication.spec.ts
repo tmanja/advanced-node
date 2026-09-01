@@ -1,3 +1,4 @@
+import { LoadFacebookUserApi } from '@/data/contacts/apis'
 import { AuthenticationError } from '@/domain/errors'
 import { FacebookAuthentication } from '@/domain/features'
 
@@ -12,10 +13,6 @@ class FacebookAuthenticationServer {
   }
 }
 
-interface LoadFacebookUserApi {
-  loadUser: (params: LoadFacebookUserApi.Params) => Promise<LoadFacebookUserApi.Result>
-}
-
 class LoadFacebookUserApiSpy implements LoadFacebookUserApi {
   token?: string
   result: undefined
@@ -26,13 +23,7 @@ class LoadFacebookUserApiSpy implements LoadFacebookUserApi {
   }
 }
 
-namespace LoadFacebookUserApi {
-  export type Params = {
-    accessToken: string
-  }
 
-  export type Result = undefined
-}
 
 describe('FacebookAuthenticationService', () => {
   it('should call LoadFacebookUserApi with correct params', async () => {
