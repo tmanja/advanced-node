@@ -27,6 +27,7 @@ describe('FacebookAuthenticationService', () => {
   it('should call LoadFacebookUserApi with correct params', async () => {
     await sut.perform({ accessToken: 'any_token' })
     expect(facebookApi.loadUser).toHaveBeenCalledWith({ accessToken })
+    expect(facebookApi.loadUser).toHaveBeenCalledTimes(1)
   })
 
   it('should return AuthenticationError when LoadFacebookUserApi returns null', async () => {
@@ -35,12 +36,7 @@ describe('FacebookAuthenticationService', () => {
     expect(authResult).toEqual(new AuthenticationError())
   })
 
-  it('should call LoadFacebookUserApi only once', async () => {
-    await sut.perform({ accessToken })
-    expect(facebookApi.loadUser).toHaveBeenCalledTimes(1)
-  })
-
-  it('should call LoadUserAccountRepository with correct email when LoadFacebookUserApi returns data', async () => {
+  it('should call LoadUserAccountRepository when LoadFacebookUserApi returns data', async () => {
     await sut.perform({ accessToken })
     expect(userAccountRepository.load).toHaveBeenCalledWith({ email: 'any_facebook_email@mail.com' })
   })
