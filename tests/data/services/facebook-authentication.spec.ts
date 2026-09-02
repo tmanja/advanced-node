@@ -39,6 +39,7 @@ describe('FacebookAuthenticationService', () => {
   it('should call LoadUserAccountRepository when LoadFacebookUserApi returns data', async () => {
     await sut.perform({ accessToken })
     expect(userAccountRepository.load).toHaveBeenCalledWith({ email: 'any_facebook_email@mail.com' })
+    expect(userAccountRepository.load).toHaveBeenCalledTimes(1)
   })
 
   it('should call CreateUserAccountRepository when LoadUserAccountRepository returns null', async () => {
@@ -49,5 +50,6 @@ describe('FacebookAuthenticationService', () => {
       email: 'any_facebook_email@mail.com',
       facebookId: 'any_facebook_id'
     })
+    expect(userAccountRepository.createFromFacebook).toHaveBeenCalledTimes(1)
   })
 })
