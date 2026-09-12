@@ -5,7 +5,7 @@ import { LoadUserAccountRepository, SaveFacebookAccountRepository } from '../con
 import { AccessToken, FacebooAccount } from '@/domain/models'
 import { TokenGenerator } from '../contacts/crypto'
 
-export class FacebookAuthenticationService {
+export class FacebookAuthenticationService implements FacebookAuthentication {
   constructor (
     private readonly facebookApi: LoadFacebookUserApi,
     private readonly userAccountRepository:
@@ -14,17 +14,18 @@ export class FacebookAuthenticationService {
     private readonly crypto: TokenGenerator,
   ) {}
 
-  async perform(params: FacebookAuthentication.Params): Promise<AuthenticationError> {
+  async perform(params: FacebookAuthentication.Params): Promise<FacebookAuthentication.Result> {
     const facebookUser = await this.facebookApi.loadUser({ accessToken: params.accessToken })
     if (facebookUser) {
       const userAccount = await this.userAccountRepository.load({ email: facebookUser.email })
       const { id } = await this.userAccountRepository.saveWithFacebook(
         new FacebooAccount(facebookUser, userAccount)
       )
-      await this.crypto.generateToken({
+      const accessToken = await this.crypto.generateToken({
         key: id,
         expirationInMs: AccessToken.expirationInMs
       })
+      return new AccessToken(accessToken)
     }
     return new AuthenticationError()
   }
