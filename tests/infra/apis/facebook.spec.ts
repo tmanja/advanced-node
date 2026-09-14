@@ -18,6 +18,11 @@ describe('FacebookApi', () => {
     httpClient.get
       .mockResolvedValueOnce({ access_token: 'any_app_token' })
       .mockResolvedValueOnce({ data: { user_id: 'any_user_id' } })
+      .mockResolvedValueOnce({
+        id: 'any_facebook_id',
+        name: 'any_facebook_name',
+        email: 'any_facebook_email@mail.com'
+      })
     sut = new FacebookApi(httpClient, clientId, clientSecret)
   })
 
@@ -55,6 +60,16 @@ describe('FacebookApi', () => {
         fields: 'id,name,email',
         access_token: 'any_client_token',
       }
+    })
+  })
+
+  it('should return facebook user info', async () => {
+    const facebookUser = await sut.loadUser({ accessToken: 'any_client_token' })
+
+    expect(facebookUser).toEqual({
+      facebookId: 'any_facebook_id',
+      name: 'any_facebook_name',
+      email: 'any_facebook_email@mail.com'
     })
   })
 })
