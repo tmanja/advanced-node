@@ -10,13 +10,15 @@ type UserAccount = null | {
 }
 
 export class FacebooAccount {
-  id?: string | undefined
+  id?: string
   name: string
   email: string
   facebookId: string
 
   constructor (facebookAccount: FacebookAccount, userAccount?: UserAccount) {
-    this.id = userAccount?.id ?? undefined
+    if (userAccount?.id) {
+      this.id = userAccount.id
+    }
     this.name = userAccount?.name ?? facebookAccount.name
     this.email = facebookAccount.email
     this.facebookId = facebookAccount.facebookId

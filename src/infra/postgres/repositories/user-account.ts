@@ -1,4 +1,4 @@
-import { LoadUserAccountRepository } from '@/data/contacts/repositories'
+import { LoadUserAccountRepository, SaveFacebokAccountRepository, SaveFacebookAccountRepository } from '@/data/contacts/repositories'
 import { getRepository } from 'typeorm'
 import { PgUser } from '../entities'
 
@@ -9,8 +9,17 @@ export class PgUserAccountRepository implements LoadUserAccountRepository {
     if (pgUser !== undefined) {
       return {
         id: pgUser.id.toString(),
-        name: pgUser.name ?? undefined
+        ...(pgUser.name != null && { name: pgUser.name })
       }
     }
+  }
+
+  async saveWithFacebook (params: SaveFacebokAccountRepository.Params): Promise<void> {
+    const pgUserRepository = getRepository(PgUser)
+    await pgUserRepository.save({
+      name: params.name,
+      email: params.email,
+      facebookId: params.facebookId
+    })
   }
 }
