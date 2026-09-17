@@ -1,4 +1,4 @@
-import { LoadUserAccountRepository, SaveFacebokAccountRepository } from '@/data/contacts/repositories'
+import { LoadUserAccountRepository, SaveFacebokAccountRepository, SaveFacebookAccountRepository } from '@/data/contacts/repositories'
 import { getRepository } from 'typeorm'
 import { PgUser } from '../entities'
 
@@ -7,7 +7,7 @@ type LoadResult = LoadUserAccountRepository.Result
 type SaveParams = SaveFacebokAccountRepository.Params
 type SaveResult = SaveFacebokAccountRepository.Result
 
-export class PgUserAccountRepository implements LoadUserAccountRepository {
+export class PgUserAccountRepository implements LoadUserAccountRepository, SaveFacebookAccountRepository {
   private readonly pgUserRepository = getRepository(PgUser)
 
   async load (params: LoadParams): Promise<LoadResult> {
