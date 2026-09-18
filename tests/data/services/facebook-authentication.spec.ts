@@ -64,10 +64,10 @@ describe('FacebookAuthenticationService', () => {
   })
 
   it('should call SaveFacebookAccountRepository with FacebookAccount', async () => {
-    const FacebooAccountStub = jest.fn().mockImplementation(() => {
+    const FacebooAccountStub = jest.fn().mockImplementationOnce(() => {
       return { any_prop: 'any_value' }
     })
-    jest.mocked(FacebooAccount).mockImplementation(FacebooAccountStub)
+    jest.mocked(FacebooAccount).mockImplementationOnce(FacebooAccountStub)
 
     await sut.perform({ accessToken })
 
