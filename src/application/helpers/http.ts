@@ -1,32 +1,32 @@
 import { ServerError, UnauthorizedError } from '@/application/errors'
 
-export type HttpResponse = {
+export type HttpResponse<T = any> = {
   statusCode: number,
-  data: any
+  data: T
 }
 
-export function ok (data: any): HttpResponse {
+export function ok<T = any> (data: T): HttpResponse<T> {
   return {
     statusCode: 200,
     data
   }
 }
 
-export function badRequest (error: Error): HttpResponse {
+export function badRequest (error: Error): HttpResponse<Error> {
   return {
     statusCode: 400,
     data: error
   }
 }
 
-export function unauthorized (): HttpResponse {
+export function unauthorized (): HttpResponse<Error> {
   return {
     statusCode: 401,
     data: new UnauthorizedError()
   }
 }
 
-export function serverError (error: Error): HttpResponse {
+export function serverError (error: Error): HttpResponse<Error> {
   return {
     statusCode: 500,
     data: new ServerError(error)
