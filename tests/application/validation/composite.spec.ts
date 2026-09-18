@@ -41,12 +41,20 @@ describe('ValidationComposite', () => {
     expect(error).toBeUndefined()
   })
 
-  it('should reutrn the first error', () => {
+  it('should reutrn the first validator error when more than one validator fails', () => {
     validator1.validate.mockReturnValueOnce(new Error('erro_1'))
     validator2.validate.mockReturnValueOnce(new Error('erro_2'))
 
     const error = sut.validate()
 
     expect(error).toEqual(new Error('erro_1'))
+  })
+
+  it('should reutrn a validator error when same validator fails', () => {
+    validator2.validate.mockReturnValueOnce(new Error('erro_2'))
+
+    const error = sut.validate()
+
+    expect(error).toEqual(new Error('erro_2'))
   })
 })
