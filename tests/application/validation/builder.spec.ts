@@ -1,8 +1,6 @@
 import { RequiredStringValidator } from '@/application/validation'
 import { ValidationBuilder } from '@/application/validation'
 
-
-
 describe('ValidationBuilder', () => {
   it('should return a RequiredStringValidator', () => {
     const validators = ValidationBuilder
