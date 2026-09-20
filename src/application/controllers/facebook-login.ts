@@ -1,7 +1,7 @@
 import { HttpResponse, ok, unauthorized } from '@/application/helpers'
 import { FacebookAuthentication } from '@/domain/features'
 import { AccessToken } from '@/domain/models'
-import { ValidationBuilder, ValidationComposite, Validator } from '../validation'
+import { ValidationBuilder, Validator } from '../validation'
 import { Controller } from '@/application/controllers'
 
 type HttpRequest = {

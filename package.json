@@ -10,6 +10,7 @@
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage",
     "test:ci": "npm test -- --ci",
+    "test:fb-api": "npm test -- -c ./jest.integration.config.js ./tests/external/facebook-api.test.ts",
     "prepare": "husky"
   },
   "keywords": [],
