@@ -18,7 +18,7 @@ describe('Facebook Api Integrations Tests', () => {
   })
 
   it('should return a Facebook User if token is valid', async () => {
-    const facebookUser = await sut.loadUser({ accessToken })
+    const facebookUser = await sut.loadUser({ token: accessToken })
 
     expect(facebookUser).toEqual({
       facebookId: '2620571661719566',
@@ -28,7 +28,7 @@ describe('Facebook Api Integrations Tests', () => {
   })
 
   it('should return undefined if toke is invalid', async () => {
-    const facebookUser = await sut.loadUser({ accessToken: 'invalid_token' })
+    const facebookUser = await sut.loadUser({ token: 'invalid_token' })
 
     expect(facebookUser).toBeNull()
   })

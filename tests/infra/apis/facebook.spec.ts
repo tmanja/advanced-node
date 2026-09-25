@@ -27,7 +27,7 @@ describe('FacebookApi', () => {
   })
 
   it('should get app token', async () => {
-    await sut.loadUser({ accessToken: 'any_client_token' })
+    await sut.loadUser({ token: 'any_client_token' })
 
     expect(httpClient.get).toHaveBeenCalledWith({
       url: 'https://graph.facebook.com/oauth/access_token',
@@ -40,7 +40,7 @@ describe('FacebookApi', () => {
   })
 
   it('should get debug token', async () => {
-    await sut.loadUser({ accessToken: 'any_client_token' })
+    await sut.loadUser({ token: 'any_client_token' })
 
     expect(httpClient.get).toHaveBeenCalledWith({
       url: 'https://graph.facebook.com/debug_token',
@@ -52,7 +52,7 @@ describe('FacebookApi', () => {
   })
 
   it('should get user info', async () => {
-    await sut.loadUser({ accessToken: 'any_client_token' })
+    await sut.loadUser({ token: 'any_client_token' })
 
     expect(httpClient.get).toHaveBeenCalledWith({
       url: 'https://graph.facebook.com/any_user_id',
@@ -64,7 +64,7 @@ describe('FacebookApi', () => {
   })
 
   it('should return facebook user info', async () => {
-    const facebookUser = await sut.loadUser({ accessToken: 'any_client_token' })
+    const facebookUser = await sut.loadUser({ token: 'any_client_token' })
 
     expect(facebookUser).toEqual({
       facebookId: 'any_facebook_id',
@@ -76,7 +76,7 @@ describe('FacebookApi', () => {
   it('should return undefined when HttpGetClient throws', async () => {
     httpClient.get.mockReset().mockRejectedValueOnce(new Error('facebook_error'))
 
-    const facebookUser = await sut.loadUser({ accessToken: 'any_client_token' })
+    const facebookUser = await sut.loadUser({ token: 'any_client_token' })
 
     expect(facebookUser).toBeNull()
   })

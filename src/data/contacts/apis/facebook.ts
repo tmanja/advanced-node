@@ -4,7 +4,7 @@ export interface LoadFacebookUserApi {
 
 export namespace LoadFacebookUserApi {
   export type Params = {
-    accessToken: string
+    token: string
   }
 
   export type Result = null | {

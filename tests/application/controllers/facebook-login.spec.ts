@@ -33,7 +33,7 @@ describe('FacebookLoginController', () => {
   it('should call FacebookAuthentication with correct param', async () => {
     await sut.handle({ token })
 
-    expect(facebookAutheneticationMock.perform).toHaveBeenCalledWith({ accessToken: 'any_token'})
+    expect(facebookAutheneticationMock.perform).toHaveBeenCalledWith({ token })
     expect(facebookAutheneticationMock.perform).toHaveBeenCalledTimes(1)
   })
 
