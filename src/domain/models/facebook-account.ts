@@ -1,4 +1,4 @@
-type FacebookAccount = {
+type FacebookUserAccount = {
   name: string,
   email: string,
   facebookId: string
@@ -9,13 +9,13 @@ type UserAccount = null | {
   name?: string
 }
 
-export class FacebooAccount {
+export class FacebookAccount {
   id?: string
   name: string
   email: string
   facebookId: string
 
-  constructor (facebookAccount: FacebookAccount, userAccount?: UserAccount) {
+  constructor (facebookAccount: FacebookUserAccount, userAccount?: UserAccount) {
     if (userAccount?.id) {
       this.id = userAccount.id
     }

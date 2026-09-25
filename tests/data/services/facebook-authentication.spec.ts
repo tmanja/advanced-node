@@ -3,7 +3,7 @@ import {  LoadUserAccountRepository, SaveFacebookAccountRepository } from '@/dat
 import { FacebookAuthenticationService } from '@/data/services'
 import { AuthenticationError } from '@/domain/errors'
 import { mock, MockProxy } from 'jest-mock-extended'
-import { AccessToken, FacebooAccount } from '@/domain/models'
+import { AccessToken, FacebookAccount } from '@/domain/models'
 import { TokenGenerator } from '@/data/contacts/crypto'
 
 jest.mock('@/domain/models/facebook-account')
@@ -64,14 +64,19 @@ describe('FacebookAuthenticationService', () => {
   })
 
   it('should call SaveFacebookAccountRepository with FacebookAccount', async () => {
-    const FacebooAccountStub = jest.fn().mockImplementationOnce(() => {
-      return { any_prop: 'any_value' }
-    })
-    jest.mocked(FacebooAccount).mockImplementationOnce(FacebooAccountStub)
+    jest.mocked(FacebookAccount).mockImplementationOnce(() => ({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      facebookId: 'any_facebook_id'
+    }))
 
     await sut.perform({ token: token })
 
-    expect(userAccountRepository.saveWithFacebook).toHaveBeenCalledWith({ any_prop: 'any_value' })
+    expect(userAccountRepository.saveWithFacebook).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      facebookId: 'any_facebook_id'
+    })
     expect(userAccountRepository.saveWithFacebook).toHaveBeenCalledTimes(1)
   })
 
