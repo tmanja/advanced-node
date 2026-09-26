@@ -32,9 +32,8 @@ export class PgUserAccountRepository implements LoadUserAccountRepository, SaveF
       resultId = pgUser.id.toString()
     } else {
       resultId = id
-      const pgUser = await pgUserRepository.findOne({ id: parseInt(id) })
       await pgUserRepository.update({ id: parseInt(id) }, {
-        name: pgUser?.name ?? name,
+        name,
         email,
         facebookId
       })

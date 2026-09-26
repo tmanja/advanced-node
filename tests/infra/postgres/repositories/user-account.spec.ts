@@ -69,7 +69,7 @@ describe('PgUserAccountRepository', () => {
 
       const { id } = await sut.saveWithFacebook({
         id: '1',
-        name: 'new_name',
+        name: 'any_name',
         email: 'new_email@mail.com',
         facebookId: 'new_facebook_id'
       })
