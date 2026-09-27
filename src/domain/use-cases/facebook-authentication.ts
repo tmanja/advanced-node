@@ -4,7 +4,7 @@ import { LoadUserAccountRepository, SaveFacebookAccountRepository } from '../con
 import { AccessToken, FacebookAccount } from '@/domain/entities'
 import { TokenGenerator } from '../contracts/crypto'
 
-export type FacebookAuthentication = (params: { token: string }) => Promise<AccessToken | AuthenticationError>
+export type FacebookAuthentication = (params: { token: string }) => Promise<{ accessToken: string }>
 
 type Setup = (
   facebookApi: LoadFacebookUserApi,
@@ -26,7 +26,7 @@ export const setupFacebookAuthentication: Setup = (
       key: id,
       expirationInMs: AccessToken.expirationInMs
     })
-    return new AccessToken(accessToken)
+    return { accessToken }
   }
-  return new AuthenticationError()
+  throw new AuthenticationError()
 }

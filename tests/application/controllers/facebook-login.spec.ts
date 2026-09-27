@@ -12,7 +12,7 @@ describe('FacebookLoginController', () => {
 
   beforeAll(() => {
     facebookAutheneticationMock = jest.fn()
-    facebookAutheneticationMock.mockResolvedValue(new AccessToken('any_value'))
+    facebookAutheneticationMock.mockResolvedValue({ accessToken: 'any_token'})
     token = 'any_token'
   })
 
@@ -36,7 +36,7 @@ describe('FacebookLoginController', () => {
   })
 
   it('should return 401 if authentication fails', async () => {
-    facebookAutheneticationMock.mockResolvedValueOnce(new AuthenticationError())
+    facebookAutheneticationMock.mockRejectedValueOnce(new AuthenticationError())
 
     const httpResponse = await sut.handle({ token })
 
@@ -52,7 +52,7 @@ describe('FacebookLoginController', () => {
     expect(httpResponse).toEqual({
       statusCode: 200,
       data: {
-        accessToken: 'any_value'
+        accessToken: 'any_token'
       }
     })
   })
