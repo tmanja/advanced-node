@@ -32,7 +32,8 @@ describe('JwtTokenGenerator', () => {
     it('should call sign with correct params', () => {
       sut.generateToken({ key, expirationInMs})
 
-      expect(fakeJwt.sign).toHaveBeenCalledWith({ key }, secret, { expiresIn: 1 })
+      expect(fakeJwt.sign).toHaveBeenCalledWith({ key }, secret, { expiresIn: 1})
+      expect(fakeJwt.sign).toHaveBeenCalledTimes(1)
     })
 
     it('should return a token', () => {
@@ -50,4 +51,19 @@ describe('JwtTokenGenerator', () => {
     })
   })
 
+  describe('validateToken', () => {
+    let token: string
+
+    beforeAll(() => {
+      token = 'any_token'
+      fakeJwt.sign.mockImplementation(() => token)
+    })
+
+    it('should call verify with correct params', () => {
+      sut.validateToken({ token })
+
+      expect(fakeJwt.verify).toHaveBeenCalledWith(token, secret)
+      expect(fakeJwt.verify).toHaveBeenCalledTimes(1)
+    })
+  })
 })
