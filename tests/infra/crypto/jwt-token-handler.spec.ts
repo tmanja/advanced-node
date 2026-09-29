@@ -53,10 +53,12 @@ describe('JwtTokenGenerator', () => {
 
   describe('validateToken', () => {
     let token: string
+    let fakeKey: string
 
     beforeAll(() => {
+      fakeKey = 'any_key'
       token = 'any_token'
-      fakeJwt.sign.mockImplementation(() => token)
+      fakeJwt.verify.mockImplementation(() => ({ key: fakeKey }))
     })
 
     it('should call verify with correct params', () => {
@@ -64,6 +66,12 @@ describe('JwtTokenGenerator', () => {
 
       expect(fakeJwt.verify).toHaveBeenCalledWith(token, secret)
       expect(fakeJwt.verify).toHaveBeenCalledTimes(1)
+    })
+
+    it('should return key used to sign', () => {
+      const key = sut.validateToken({ token })
+
+      expect(key).toBe(fakeKey)
     })
   })
 })
