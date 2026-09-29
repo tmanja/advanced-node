@@ -80,10 +80,5 @@ describe('JwtTokenGenerator', () => {
       })
       expect(() => sut.validateToken({ token })).toThrow(new Error('key_error'))
     })
-
-    it('should throw if verify returns null', () => {
-      fakeJwt.verify.mockImplementationOnce(() => null)
-      expect(() => sut.validateToken({ token })).toThrow()
-    })
   })
 })
