@@ -2,10 +2,10 @@ import { LoadUserAccountRepository, SaveFacebokAccountRepository, SaveFacebookAc
 import { getRepository } from 'typeorm'
 import { PgUser } from '../entities'
 
-type LoadParams = LoadUserAccountRepository.Params
-type LoadResult = LoadUserAccountRepository.Result
-type SaveParams = SaveFacebokAccountRepository.Params
-type SaveResult = SaveFacebokAccountRepository.Result
+type LoadParams = LoadUserAccountRepository.Input
+type LoadResult = LoadUserAccountRepository.Output
+type SaveParams = SaveFacebokAccountRepository.Input
+type SaveResult = SaveFacebokAccountRepository.Output
 
 export class PgUserAccountRepository implements LoadUserAccountRepository, SaveFacebookAccountRepository {
 
