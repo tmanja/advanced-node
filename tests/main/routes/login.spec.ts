@@ -5,7 +5,7 @@ import { makeFakeDb } from '@/tests/infra/postgres/mocks'
 import { IBackup } from 'pg-mem'
 import {  getConnection } from 'typeorm'
 import { FacebookApi } from '@/infra/apis'
-import { UnauthorizedError } from '@/application/errors'
+import { ForbiddenError } from '@/application/errors'
 
 describe('Login Routes', () => {
   describe('POST /login/facebook', () => {
@@ -46,7 +46,7 @@ describe('Login Routes', () => {
         .send({ token: 'valid_token' })
 
       expect(status).toBe(401)
-      expect(body).toEqual({ error: new UnauthorizedError().message })
+      expect(body).toEqual({ error: new ForbiddenError().message })
     })
   })
 })

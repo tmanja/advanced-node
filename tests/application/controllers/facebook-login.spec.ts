@@ -1,5 +1,5 @@
 import { FacebookLoginController } from '@/application/controllers'
-import {  UnauthorizedError } from '@/application/errors'
+import {  ForbiddenError } from '@/application/errors'
 import { RequiredStringValidator } from '@/application/validation'
 import { AuthenticationError } from '@/domain/entities/errors'
 import { AccessToken } from '@/domain/entities'
@@ -42,7 +42,7 @@ describe('FacebookLoginController', () => {
 
     expect(httpResponse).toEqual({
       statusCode: 401,
-      data: new UnauthorizedError()
+      data: new ForbiddenError()
     })
   })
 
