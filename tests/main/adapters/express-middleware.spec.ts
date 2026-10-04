@@ -7,7 +7,13 @@ type MiddlewareAdapter = (middleware: Middleware) => RequestHandler
 
 const adaptExpressMiddleware: MiddlewareAdapter = middleware => (req, res, next) => {
   const { statusCode, data } = middleware.handle({...req.headers})
-  res.status(statusCode).json({ error: data.message })
+  if (statusCode === 200) {
+    req.locals = {...req.locals, ...data}
+    next()
+  } else {
+    const error = data
+    res.status(statusCode).json({ error: error.message })
+  }
 }
 
 interface Middleware {
@@ -27,8 +33,8 @@ describe('ExpressMiddleware', () => {
     next = getMockRes().next
     middleware = mock()
     middleware.handle.mockReturnValue({
-      statusCode: 500,
-      data: new Error('any_error')
+      statusCode: 200,
+      data: { data: 'any_data' }
     })
   })
 
@@ -44,11 +50,24 @@ describe('ExpressMiddleware', () => {
   })
 
   it('should respond with correct error and status code', () => {
+    middleware.handle.mockReturnValueOnce({
+      statusCode: 500,
+      data: new Error('any_error')
+    })
+
     sut(req, res, next)
 
     expect(res.status).toHaveBeenCalledWith(500)
     expect(res.status).toHaveBeenCalledTimes(1)
     expect(res.json).toHaveBeenCalledWith({ error: 'any_error' })
     expect(res.json).toHaveBeenCalledTimes(1)
+  })
+
+  it('should add data to req.locals', () => {
+    sut(req, res, next)
+
+    expect(req.locals).toEqual({ data: 'any_data' })
+    expect(next).toHaveBeenCalled()
+    expect(next).toHaveBeenCalledTimes(1)
   })
 })
